@@ -18,17 +18,17 @@ export const ValidationIndicator: FC<ValidationIndicatorProps> = ({ description,
   const [id] = useState(v4());
   const [isPinging, setPingState] = useState(false);
  
-  const highlight = () => {
-    ref.current?.scrollIntoView();
-    setPingState(true);
-    setTimeout(() => setPingState(false), 2000);
-  }
-
   useEffect(() => {
+    const highlight = () => {
+      ref.current?.scrollIntoView();
+      setPingState(true);
+      setTimeout(() => setPingState(false), 2000);
+    }
+  
     dispatch({ type: 'ADD', id, description, fix, highlight, boundaryId });
 
     return () => dispatch({type: 'REMOVE', id })
-  }, [id, description]);
+  }, [id, description, fix, boundaryId, dispatch]);
 
   return <div ref={ref} className="p-2 flex items-center justify-center" data-tip={description}>
     <svg className={isPinging ? 'animate-ping' : ''} width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
